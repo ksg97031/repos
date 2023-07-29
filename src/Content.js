@@ -57,13 +57,8 @@ const ListRepository = ({ org, searchConditions, setSearchConditions}) => {
 
   for (let i = 0; i < pages.length; i++) {
     const {repos} = getRepos(org.toLowerCase(), pages[i], cookies.githubToken);
-    if (repos) {
+    if (repos && repos.length > 0) {
       mergedRepos = mergedRepos.concat(repos);
-    } else if (repos == false) {
-      console.log('exceed limit');
-      exceedFlag = true;
-      removeCookie('githubToken', { path: '/' });
-      break;
     }
   }
 
@@ -74,12 +69,12 @@ const ListRepository = ({ org, searchConditions, setSearchConditions}) => {
       searchConditions.map((condition) => {
         let conditionValue = condition.value.toLowerCase();
         if (condition.type === 0) {
-          if (!repo.topics.includes(conditionValue)) {
+          if (repo.topics && !repo.topics.includes(conditionValue)) {
             isMatch = false;
           }
         }
         else if (condition.type === 1) {
-          if (repo.topics.includes(conditionValue)) {
+          if (repo.topics && repo.topics.includes(conditionValue)) {
             isMatch = false;
           }
         }
@@ -106,6 +101,8 @@ const ListRepository = ({ org, searchConditions, setSearchConditions}) => {
   }
 
   const orgName = org[0].toUpperCase() + org.slice(1);
+  console.log("asdasdads")
+  console.log(filterRepos[0])
   const orgAvatar = filterRepos[0]['owner']['avatar_url'];
   return (
     <List sx={{ width: '32%', minWidth:350, maxWidth: 550, bgcolor: 'background.paper' }}>

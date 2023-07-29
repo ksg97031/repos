@@ -4,16 +4,12 @@ export default function getRepos(org) {
   const [repos, setRepos] = useState([]);
 
   useEffect(() => {
-    try {
-      let response = fetch(
-        `https://repos-api.onrender.com/api/${org}`,
-      );
-      let responseJson = response.json();
-      setRepos(responseJson);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [org]);
+    fetch(
+      `http://127.0.0.1:8000/api/${org}`,
+      //`https://repos-api.onrender.com/api/${org}`,
+    ).then((res) => res.json())
+    .then((data) => setRepos(data));
+  }, []);
 
   return {
     repos
