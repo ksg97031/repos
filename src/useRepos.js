@@ -6,7 +6,7 @@ export default function getRepos(org) {
   useEffect(() => {
     fetch(
       //`http://127.0.0.1:8000/api/${org}`,
-      `https://repos-api.onrender.com/api/${org}`,
+      `https://repos-api-production.up.railway.app/api/${org}`,
     ).then((res) => res.json())
     .then((data) => setRepos(data));
   }, []);
